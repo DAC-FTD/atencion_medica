@@ -5,123 +5,642 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Registro de Atención Médica</title>
   <style>
+
+   .logo-tigre {
+  height: 50px;
+  object-fit: contain;
+}
+
+.logo-unemi {
+  height: 40px;
+  object-fit: contain;
+}
+
+.franja-superior {
+  background-color: #002E45; /* Azul institucional */
+  color: white;
+  padding: 8px 20px;
+}
+
+.encabezado-medico {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.encabezado-medico h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.franja-naranja {
+  height: 6px;
+  background-color: #FF6900; /* Naranja UNEMI */
+}
+
     :root {
-      --bg: #0b132b;
-      --panel: #1c2541;
-      --muted: #3a506b;
-      --accent: #5bc0be;
-      --ok: #2cb67d;
-      --warn: #f0a500;
+      --azul: #0b3a8e;
+      --naranja: #f57c00;
+      --border: #dfe5ef;
+      --bg-light: #f6f9ff;
+      --text-dark: #0e1a2b;
+      --text-muted: #5a6b84;
+      --accent: #0b3a8e;
+      --success: #2cb67d;
       --danger: #ef4565;
-      --text: #e6f1ff;
-      --subtext: #cfe0ff;
-      --border: #2b3a55;
+      --warn: #f0a500;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
     body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: linear-gradient(180deg, #0b132b 0%, #0f1a3a 100%);
-      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% -10%, #ffffff 0%, #f6f9ff 45%, #f2f6ff 100%);
+      color: var(--text-dark);
+      line-height: 1.6;
     }
+
+    /* ====== HEADER ====== */
     header {
-      position: sticky; top: 0; z-index: 10;
-      background: rgba(12, 21, 53, .9);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 18px;
-      display: flex; align-items: center; gap: 12px; justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #ffffff;
+      color: #222;
+      border-bottom: none;
+      padding: 16px 18px 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
     }
-    header h1 { margin: 0; font-size: 18px; letter-spacing: .3px; }
-    header small { color: var(--subtext); opacity: .9; }
-    .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+    header h1 {
+      color: var(--azul);
+      text-align: center;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: .2px;
+      margin: 0;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 6px;
+      background: var(--naranja);
+    }
+
+    #envBadge {
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      background: #eef2ff;
+      color: var(--azul);
+      border: 1px solid #cfd8ff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    /* ====== LAYOUT ====== */
+    .container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
     .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      background: #ffffff;
+      border: 1px solid #e6eef7;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 38, 90, .06), 0 3px 10px rgba(15, 38, 90, .04);
+      padding: 22px;
     }
-    .grid { display: grid; gap: 12px; }
-    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    /* ====== FORMS ====== */
+    fieldset {
+      border: 1px dashed #e3ebf6;
+      border-radius: 16px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+      margin-bottom: 20px;
+    }
+
+    legend {
+      color: #7a8ba3;
+      font-weight: 700;
+      padding: 0 8px;
+      font-size: 14px;
+    }
+
+    label {
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: .2px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="date"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      background: #fff;
+      color: var(--text-dark);
+      border: 1px solid #dbe5f0;
+      border-radius: 12px;
+      padding: 11px 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+      font-size: 14px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9bb0c7;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(11,58,142,.14);
+    }
+
+    input:disabled,
+    select:disabled,
+    textarea:disabled {
+      background: #f5f8fb;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* ====== GRID ====== */
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 28px;
+    }
+
     @media (max-width: 920px) {
-      .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+      .grid.cols-2,
+      .grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
     }
-    label { font-size: 12px; color: var(--subtext); display: block; margin-bottom: 6px; }
-    input[type="text"], input[type="number"], input[type="date"], input[type="datetime-local"], select, textarea {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
-      background: #101935; color: var(--text);
-      outline: none; transition: border-color .15s ease;
-    }
-    input:focus, select:focus, textarea:focus { border-color: var(--accent); }
-    .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .chip { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: #131f45; font-size: 12px; }
-    fieldset { border: 1px dashed var(--border); border-radius: 12px; padding: 12px; }
-    legend { padding: 0 8px; color: var(--subtext); font-size: 12px; }
-    .hint { font-size: 12px; color: var(--subtext); opacity: .85; }
-    .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ====== BUTTONS ====== */
     button {
-      appearance: none; border: 1px solid var(--border); background: #142146; color: var(--text);
-      padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600;
-      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      appearance: none;
+      border-radius: 12px;
+      border: 1px solid #d6e0ef;
+      background: #f7faff;
+      color: #11356b;
+      font-weight: 700;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all .2s ease;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
     }
-    button:hover { background: #18295a; border-color: #3b4b77; }
-    .btn-primary { background: var(--accent); color: #0b132b; border: 1px solid #58b0ae; }
-    .btn-primary:hover { filter: brightness(1.03); }
-    .btn-ghost { background: transparent; }
-    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); }
 
-    .toast { position: fixed; right: 16px; bottom: 16px; background: #101935; border: 1px solid var(--border); padding: 12px 14px; border-radius: 12px; display: none; max-width: 360px; box-shadow: 0 10px 24px rgba(0,0,0,.35); }
-    .toast.show { display: block; }
+    button:hover:not(:disabled) {
+      background: #eff5ff;
+      border-color: #c9d8f0;
+      transform: translateY(-1px);
+    }
 
-    .divider { height: 1px; background: var(--border); margin: 10px 0 16px; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
 
-    .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-    .kpi .card { padding: 12px; text-align: center; background: #121f46; }
-    .kpi h3 { margin: 0; font-size: 12px; color: var(--subtext); }
-    .kpi strong { display: block; font-size: 18px; margin-top: 6px; color: var(--accent); }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
 
-    .muted { color: var(--subtext); }
-    .error { color: var(--danger); font-size: 12px; }
-    .ok { color: var(--ok); font-size: 12px; }
-    #cie10Results { position: absolute; background: #0f1a3a; border: 1px solid var(--border); border-radius: 8px; width: 100%; max-height: 220px; overflow: auto; display: none; z-index: 5; }
-    #cie10Results div { padding: 8px 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,.04); }
-    #cie10Results div:hover { background: #162659; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--azul) 0%, #124cbf 100%);
+      border-color: var(--azul);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(11, 58, 142, .2);
+    }
 
-    /* === MODAL RECETA (ESTÁTICO) === */
+    .btn-primary:hover:not(:disabled) {
+      filter: brightness(1.08);
+      box-shadow: 0 6px 16px rgba(11, 58, 142, .3);
+    }
+
+    .btn-primary:disabled {
+      background: #cbd5e1;
+      border-color: #cbd5e1;
+      box-shadow: none;
+    }
+
+    .btn-ghost {
+      background: #fff;
+      color: var(--azul);
+      border-color: #cfe0ff;
+    }
+
+    /* ====== PILLS (checkboxes/radios) ====== */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #dbe5f0;
+      background: #f7fbff;
+      color: #234065;
+      gap: 8px;
+      transition: all .15s ease;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pill:hover {
+      background: #f1f7ff;
+      border-color: #cfe0ff;
+    }
+
+    .pill input[type="checkbox"],
+    .pill input[type="radio"] {
+      accent-color: var(--azul);
+      margin: 0 6px 0 0;
+      cursor: pointer;
+    }
+
+    .pill:has(input:checked) {
+      background: #eef5ff;
+      border-color: #bcd2ff;
+      box-shadow: 0 0 0 2px rgba(11,58,142,.08) inset;
+    }
+
+    .pill input:checked + span {
+      color: var(--azul);
+      font-weight: 700;
+    }
+
+    /* ====== DIVIDER ====== */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e7eef8, transparent);
+      margin: 18px 0;
+    }
+
+    /* ====== HINTS & MESSAGES ====== */
+    .hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      opacity: .85;
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .ok {
+      color: var(--success);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .warn {
+      color: var(--warn);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ====== CIE10 AUTOCOMPLETE ====== */
+    #cie10Results {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #e3ebf6;
+      border-radius: 8px;
+      width: 100%;
+      max-height: 220px;
+      overflow: auto;
+      display: none;
+      z-index: 50;
+      box-shadow: 0 10px 30px rgba(15, 38, 90, .08);
+      margin-top: 4px;
+    }
+
+    #cie10Results div {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(0,0,0,.04);
+      transition: background .15s ease;
+    }
+
+    #cie10Results div:hover {
+      background: #f5f9ff;
+    }
+
+    /* ====== TOAST ====== */
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid #dbe5f0;
+      box-shadow: 0 10px 24px rgba(15, 38, 90, .12);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: none;
+      max-width: 400px;
+      z-index: 1000;
+      animation: toastIn .2s ease-out;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    @keyframes toastIn {
+      from {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .toast[data-kind="error"] {
+      background: #fff7f7;
+      border-color: #f5c2c7;
+      color: #7a1f29;
+    }
+
+    .toast[data-kind="success"],
+    .toast[data-kind="ok"] {
+      background: #f6fffb;
+      border-color: #b7ead3;
+      color: #1b5e3a;
+    }
+
+    /* ====== MODAL ====== */
     .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,.5);
-      display: none; align-items: center; justify-content: center; z-index: 50;
+      position: fixed;
+      inset: 0;
+      background: rgba(12, 28, 66, .45);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
     }
-    .modal { width: min(860px, 96vw); background: var(--panel); border: 1px solid var(--border);
-      border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
-    .modal header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;}
-    .modal main { padding: 12px 16px; }
-    .modal footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
-    .badge { font-size: 12px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--subtext); }
-    .tbl { width: 100%; border-collapse: collapse; }
-    .tbl th, .tbl td { border-bottom: 1px solid var(--border); padding: 8px; text-align: left; font-size: 14px; }
-    .tbl th { color: var(--subtext); font-weight: 600; }
-    .icon-btn { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: #142146; cursor: pointer; }
-    .icon-btn:hover { background: #1b2a57; }
+
+    .modal {
+      width: min(860px, 96vw);
+      max-height: 90vh;
+      background: #ffffff;
+      border: 1px solid #e6eef7;
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(15, 38, 90, .15), 0 6px 20px rgba(15, 38, 90, .10);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal header {
+      background: #ffffff;
+      border-bottom: 1px solid #e9f0fb;
+      padding: 16px 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 6px;
+      background: var(--naranja);
+    }
+
+    .modal header strong {
+      color: var(--azul);
+      font-weight: 800;
+      letter-spacing: .2px;
+      font-size: 18px;
+    }
+
+    .modal header .icon-btn {
+      border-color: #dbe5f0;
+      background: #fff;
+      width: 32px;
+      height: 32px;
+      line-height: 1;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-size: 18px;
+    }
+
+    .modal header .icon-btn:hover {
+      background: #f1f6ff;
+    }
+
+    .modal main {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal footer {
+      background: #f9fbff;
+      border-top: 1px solid #e9f0fb;
+      padding: 16px 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* ====== TABLE ====== */
+    .tbl {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 12px;
+    }
+
+    .tbl thead th {
+      color: #7a8ba3;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 8px;
+      border-bottom: 1px solid #e6eef7;
+      text-align: left;
+    }
+
+    .tbl tbody td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eff4fb;
+      vertical-align: middle;
+    }
+
+    .tbl tbody td input[type="text"] {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #dbe5f0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: #fff;
+      color: var(--text-dark);
+    }
+
+    .tbl tbody td input[type="text"]:focus {
+      border-color: var(--azul);
+      box-shadow: 0 0 0 3px rgba(11,58,142,.12);
+    }
+
+    .tbl tbody td .icon-btn {
+      border-color: #dbe5f0;
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 16px;
+    }
+
+    .tbl tbody td .icon-btn:hover {
+      background: #f1f6ff;
+    }
+
+    /* ====== BADGE ====== */
+    .badge {
+      font-size: 12px;
+      padding: 6px 12px;
+      border: 1px solid #b7ead3;
+      border-radius: 999px;
+      color: #1b5e3a;
+      background: #f6fffb;
+      display: inline-block;
+    }
+
+    /* ====== UTILITIES ====== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* ====== LOADING SPINNER ====== */
+    .spinner {
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      width: 16px;
+      height: 16px;
+      animation: spin .6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ====== SPECIFIC ADJUSTMENTS ====== */
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    #reposoBlock {
+      display: none;
+    }
+
+    .icon-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #cfe0ff;
+      background: #fff;
+      color: var(--azul);
+      font-weight: 700;
+    }
+
+    .icon-btn:hover {
+      background: #f1f6ff;
+    }
   </style>
 </head>
-<body>
-  <header>
+
+
+<!-- Encabezado -->
+<div class="franja-superior">
+  <div class="encabezado-medico">
+    <img src="https://dac-ftd.github.io/pry-admin/img/logo-unemi.png" class="logo-tigre" alt="Logo Tigre">
     <h1>Registro de Atención Médica</h1>
-    <small id="envBadge" class="chip">Sin backend configurado</small>
-  </header>
+    <img src="https://dac-ftd.github.io/pry-admin/img/unemi-logo.png" class="logo-unemi" alt="Logo UNEMI">
+  </div>
+</div>
+<div class="franja-naranja"></div>
+
+<body>
 
   <div class="container">
-    <div class="kpi">
-      <div class="card"><h3>Código único</h3><strong id="kpiCodigo">—</strong></div>
-      <div class="card"><h3>Número de orden</h3><strong id="kpiOrden">—</strong></div>
-      <div class="card"><h3>Hora sistema</h3><strong id="kpiHora">—</strong></div>
-    </div>
-
     <div class="card" role="region" aria-label="Formulario principal">
       <form id="frmAtencion" novalidate>
         <input type="hidden" id="codigo_unico" name="CODIGO_UNICO" />
@@ -134,7 +653,7 @@
             <div>
               <label for="cedula">CÉDULA *</label>
               <div class="row">
-                <input id="cedula" name="CEDULA" type="text" inputmode="numeric" maxlength="10" placeholder="10 dígitos" />
+                <input id="cedula" name="CEDULA" type="text" inputmode="numeric" maxlength="10" placeholder="10 dígitos" required />
                 <button class="btn-ghost" type="button" id="btnConsultar">Consultar</button>
               </div>
               <div id="msgCedula" class="hint"></div>
@@ -174,29 +693,27 @@
             </div>
           </div>
 
-          <div class="row" style="margin-top:8px; gap:14px;">
+          <div class="row" style="margin-top:12px;">
             <label class="pill"><input type="checkbox" id="masculino" /> <span>MASCULINO</span></label>
             <label class="pill"><input type="checkbox" id="femenino" /> <span>FEMENINO</span></label>
             <label class="pill"><input type="checkbox" id="r15_54" /> <span>15–54 AÑOS</span></label>
             <label class="pill"><input type="checkbox" id="r55_mas" /> <span>55 Y MÁS</span></label>
-            <span class="hint"></span>
           </div>
         </fieldset>
-
-        <div class="divider"></div>
 
         <fieldset>
           <legend>Datos de la atención</legend>
           <div class="grid cols-3">
             <div>
               <label for="programa">PROGRAMA *</label>
-              <select id="programa" name="PROGRAMA"></select>
-              <div class="hint"></div>
+              <select id="programa" name="PROGRAMA" required>
+                <option value="">— Selecciona —</option>
+              </select>
             </div>
             <div>
               <label>TIPO DE ATENCIÓN *</label>
               <div class="row">
-                <label class="pill"><input type="radio" name="tipo_visita" id="primera" /> <span>PRIMERA</span></label>
+                <label class="pill"><input type="radio" name="tipo_visita" id="primera" required /> <span>PRIMERA</span></label>
                 <label class="pill"><input type="radio" name="tipo_visita" id="subsecuente" /> <span>SUBSECUENTE</span></label>
               </div>
             </div>
@@ -212,7 +729,6 @@
           <div class="grid cols-3">
             <div>
               <label for="num_recetas">N° DE RECETAS ATENDIDAS</label>
-              <!-- SIEMPRE 1 (readonly) -->
               <input id="num_recetas" name="NUMERO_RECETAS_ATENDIDAS" type="number" min="1" value="1" readonly title="Este valor se define como 1 de forma fija" />
             </div>
             <div>
@@ -222,12 +738,9 @@
                 <label class="pill"><input type="radio" name="ambulatorio" id="amb_no" /> <span>NO</span></label>
               </div>
             </div>
-            <div class="muted" style="align-self:end">
-              <span class="hint"></span>
-            </div>
           </div>
 
-          <div id="reposoBlock" class="grid cols-3" style="display:none;">
+          <div id="reposoBlock" class="grid cols-3">
             <div>
               <label for="reposo_desde">REPOSO DESDE</label>
               <input id="reposo_desde" type="date" />
@@ -242,47 +755,46 @@
             </div>
           </div>
 
-          <!-- ÚNICO BLOQUE diagnóstico/observaciones -->
+          <div class="divider"></div>
+
           <div class="grid cols-2" style="position: relative;">
-            <div>
+            <div style="position: relative;">
               <label for="cie10">DIAGNÓSTICO (CIE10) *</label>
-              <input id="cie10" type="text" placeholder="Buscar por código o descripción" autocomplete="off" />
+              <input id="cie10" type="text" placeholder="Buscar por código o descripción" autocomplete="off" required />
               <div id="cie10Results" role="listbox" aria-label="Resultados CIE10"></div>
-              <input id="cie10_code" type="text" class="sr-only" aria-hidden="true" />
+              <input id="cie10_code" type="hidden" />
             </div>
             <div>
               <label for="observaciones">OBSERVACIONES</label>
-              <textarea id="observaciones" rows="3" placeholder="Opcional"></textarea>
+              <textarea id="observaciones" placeholder="Opcional"></textarea>
             </div>
           </div>
 
-          <!-- RECETA trigger -->
-          <div class="row" style="margin-top:10px; gap:10px; align-items:center;">
+          <div class="row" style="margin-top:16px; align-items:center;">
             <span class="hint">¿Necesitas emitir una receta para este paciente?</span>
             <button type="button" id="btnAbrirReceta" class="btn-ghost">Agregar receta</button>
             <span id="recetaStatus" class="badge" style="display:none;">Receta lista ✔</span>
           </div>
         </fieldset>
 
-        <div class="divider"></div>
-
         <div class="btns">
-          <button type="button" id="btnLimpiar" class="btn-ghost">Limpiar</button>
-          <button type="button" id="btnPrevisualizar" class="btn-ghost">Previsualizar</button>
-          <button type="submit" class="btn-primary">Guardar atención</button>
+          <button type="submit" id="btnGuardar" class="btn-primary">
+            <span id="btnGuardarText">Guardar atención</span>
+            <span id="btnGuardarSpinner" class="spinner" style="display:none;"></span>
+          </button>
         </div>
-        <div id="formMsg" class="hint" style="margin-top:8px"></div>
+        <div id="formMsg" class="hint" style="margin-top:12px;"></div>
       </form>
     </div>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- MODAL RECETA (ESTÁTICO) -->
+  <!-- MODAL RECETA -->
   <div id="recetaModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="recetaTitle">
     <div class="modal">
       <header>
-        <strong id="recetaTitle">Editor de receta</strong>
+        <strong id="recetaTitle">Receta médica</strong>
         <button type="button" id="btnCerrarReceta" class="icon-btn">✕</button>
       </header>
       <main>
@@ -301,7 +813,7 @@
           </div>
         </div>
 
-        <div class="grid cols-3" style="margin-top:8px;">
+        <div class="grid cols-3" style="margin-top:12px;">
           <div>
             <label for="rec_cie10">CIE10</label>
             <input id="rec_cie10" type="text" readonly />
@@ -317,12 +829,13 @@
         </div>
 
         <div class="divider"></div>
+
         <div class="row" style="justify-content:space-between; align-items:center;">
-          <h4 style="margin:0;">Rp. Prescripción</h4>
+          <h4 style="margin:0; color: var(--azul); font-size: 16px;">Rp. Prescripción</h4>
           <button type="button" id="btnAddLinea" class="icon-btn">+ Añadir línea</button>
         </div>
 
-        <table class="tbl" style="margin-top:8px;">
+        <table class="tbl">
           <thead>
             <tr>
               <th>Medicamento</th>
@@ -334,8 +847,8 @@
           <tbody id="rec_lines"></tbody>
         </table>
 
-        <div class="hint" style="margin-top:8px;">
-          Ej.: Medicamento: “Albendazol 200mg”; Dosis: “# 4 tabletas”; Indicaciones: “Tomar dos tabletas 1er día y dos tabletas el 8vo día”.
+        <div class="hint" style="margin-top:12px;">
+          Ej.: Medicamento: "Albendazol 200mg"; Dosis: "# 4 tabletas"; Indicaciones: "Tomar dos tabletas 1er día y dos tabletas el 8vo día".
         </div>
       </main>
       <footer>
@@ -346,373 +859,250 @@
   </div>
 
   <script>
-  // ==========================
-  // CONFIGURACIÓN DEL BACKEND
-  // ==========================
-  const BACKEND_BASE_URL = "https://script.google.com/macros/s/AKfycbwcVczsq_Qab_qLJBeqHbBEIl__8EEeYw_kzo8NHRsq39oNO5CCA0R5D11ygWjAd6QA/exec";
-  const MOCK_MODE = !BACKEND_BASE_URL;
+    // ==========================
+    // CONFIGURACIÓN
+    // ==========================
+    const BACKEND_BASE_URL = "https://script.google.com/macros/s/AKfycbwcVczsq_Qab_qLJBeqHbBEIl__8EEeYw_kzo8NHRsq39oNO5CCA0R5D11ygWjAd6QA/exec";
+    const MOCK_MODE = !BACKEND_BASE_URL;
+    const MAKE_WEBHOOK_RECETA = "https://hook.us2.make.com/pf9fz88jg4krwe81top7ph8gx4qaw72e";
+    const RECETA_DEFAULTS = {
+      medico: "Dr. James Torres",
+      regsan: "15084",
+      unidad: "DISPENSARIO MÉDICO UNEMI"
+    };
 
-  const PROGRAMAS_FALLBACK = [
-    "CALIFICACIÓN MEDICA","PRELABORALES","OCUPACIONALES","REINTEGRO",
-    "POSTOCUPACIONALES","CAMBIO DE PUESTO","VALORACIÓN BRIGADISTAS",
-    "AUDIOMETRÍAS","ESPIROMETRÍAS", "ATENCIÒN ORDINARIA"
-  ];
+    const PROGRAMAS_FALLBACK = [
+      "CALIFICACIÓN MEDICA","PRELABORALES","OCUPACIONALES","REINTEGRO",
+      "POSTOCUPACIONALES","CAMBIO DE PUESTO","VALORACIÓN BRIGADISTAS",
+      "AUDIOMETRÍAS","ESPIROMETRÍAS", "ATENCIÒN ORDINARIA"
+    ];
 
-  // === ENVÍO DE RECETA POR MAKE (NUEVO) ===
-  const MAKE_WEBHOOK_RECETA = "https://hook.us2.make.com/pf9fz88jg4krwe81top7ph8gx4qaw72e"; // ← reemplaza por tu webhook
-  const RECETA_DEFAULTS = { medico: "Dr. James Torres", regsan: "15084", unidad: "DISPENSARIO MÉDICO UNEMI" };
+    // Estado de la aplicación
+    let isSubmitting = false;
+    let recetaData = {
+      medico: RECETA_DEFAULTS.medico,
+      regsan: RECETA_DEFAULTS.regsan,
+      unidad: RECETA_DEFAULTS.unidad,
+      fecha: "",
+      paciente: "",
+      cie10: "",
+      lines: []
+    };
 
-  // Estado local de la receta (modal avanzado)
-  let recetaData = {
-    medico: RECETA_DEFAULTS.medico,
-    regsan: RECETA_DEFAULTS.regsan,
-    unidad: RECETA_DEFAULTS.unidad,
-    fecha: "",       // datetime-local
-    paciente: "",    // nombres y apellidos
-    cie10: "",       // código o descripción
-    lines: []        // [{medicamento, dosis, indicaciones}]
-  };
+    // ==========================
+    // HELPERS
+    // ==========================
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-  // ==========================
-  // HELPERS
-  // ==========================
-  const $  = (sel) => document.querySelector(sel);
-  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-  function toast(msg, kind = "info") {
-    const t = $("#toast");
-    if (!t) return alert(msg);
-    t.textContent = msg;
-    t.style.borderColor = (kind === "error")
-      ? getComputedStyle(document.documentElement).getPropertyValue('--danger')
-      : getComputedStyle(document.documentElement).getPropertyValue('--border');
-    t.classList.add("show");
-    setTimeout(() => t.classList.remove("show"), 3500);
-  }
-
-  function nowLocalISO() {
-    const d = new Date();
-    const pad = (n) => String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-  }
-  function nowForDatetimeLocal() {
-    const d = new Date();
-    const pad = (n)=> String(n).padStart(2,'0');
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }
-
-  function validateCedula(ecuId) {
-    if (!/^\d{10}$/.test(ecuId)) return false;
-    const digits = ecuId.split('').map(Number);
-    const province = parseInt(ecuId.slice(0,2), 10);
-    if (province < 1 || (province > 24 && province !== 30)) return false;
-    const checkDigit = digits[9];
-    let sum = 0;
-    for (let i=0;i<9;i++) {
-      let val = digits[i];
-      if (i % 2 === 0) { val *= 2; if (val > 9) val -= 9; }
-      sum += val;
-    }
-    const expected = (10 - (sum % 10)) % 10;
-    return expected === checkDigit;
-  }
-
-  // --- NUEVO: normalizar cédula/Historia a 10 dígitos ---
-function normalizarCedula(v) {
-  const s = String(v || '').replace(/\D/g, '').slice(0, 10); // solo dígitos
-  return s.padStart(10, '0');                                // completa con ceros
-}
-
-  function inclusiveDays(fromStr, toStr) {
-    if (!fromStr || !toStr) return 0;
-    const from = new Date(fromStr + 'T00:00:00');
-    const to = new Date(toStr + 'T00:00:00');
-    const diff = Math.round((to - from) / (1000*60*60*24));
-    return diff >= 0 ? (diff + 1) : 0;
-  }
-
-  function sexoToFlags(sexo) {
-    return { masculino: sexo === 'M' ? 'SI' : 'NO', femenino: sexo === 'F' ? 'SI' : 'NO' };
-  }
-
-  function setEnvBadge() {
-    const b = $("#envBadge");
-    if (!b) return;
-    if (MOCK_MODE) {
-      b.textContent = "Modo DEMO (sin backend)";
-    } else {
-      b.textContent = "Backend conectado";
-      b.style.borderColor = 'rgba(91,192,190,.55)';
-      b.style.background  = 'rgba(91,192,190,.1)';
-    }
-  }
-
-  function setKpis(codigo, orden) {
-    if ($("#kpiCodigo")) $("#kpiCodigo").textContent = codigo || '—';
-    if ($("#kpiOrden")) $("#kpiOrden").textContent = orden || '—';
-    if ($("#kpiHora"))   $("#kpiHora").textContent   = new Date().toLocaleString();
-  }
-
-  async function fetchJSON(url) {
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' }, cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  }
-
-  async function postJSON(url, payload) {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita preflight
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  }
-
-  // === SOLO PARA ENVIAR A MAKE COMO JSON REAL ===
-async function postJSONtoMake(url, payload) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' }, // <- clave
-    body: JSON.stringify(payload)
-  });
-  // El webhook de Make a veces responde sin JSON; evita romper el flujo
-  try { return await res.json(); } catch { return {}; }
-}
-
-  async function cargarProgramas() {
-    const sel = $("#programa");
-    if (!sel) return;
-    sel.innerHTML = "<option value=''>— Selecciona —</option>";
-    let items = PROGRAMAS_FALLBACK;
-    if (!MOCK_MODE) {
-      try {
-        const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=programas&_=${Date.now()}`);
-        if (Array.isArray(data) && data.length) items = data;
-      } catch (e) { console.warn('Fallo al obtener programas, uso fallback', e); }
-    }
-    for (const it of items) {
-      const opt = document.createElement('option');
-      opt.value = it; opt.textContent = it; sel.appendChild(opt);
-    }
-  }
-
-  function fullNameFromBackend(p){
-    return (
-      p?.nombres_apellidos ||
-      p?.nombresApellidos ||
-      p?.empleado ||
-      [p?.nombres, p?.apellidos].filter(Boolean).join(' ')
-    )?.trim() || '';
-  }
-
-  async function consultarPaciente(cedula) {
-    if (MOCK_MODE) return null;
-    const url = `${BACKEND_BASE_URL}?fn=paciente&cedula=${encodeURIComponent(cedula)}&_=${Date.now()}`;
-    const data = await fetchJSON(url);
-    if (data && (data.cedula || data.CEDULA)) {
-      if (!data.cedula && data.CEDULA) data.cedula = String(data.CEDULA);
-      return data;
-    }
-    if (data && data.error) { throw new Error(data.error); }
-    return null;
-  }
-
-  async function buscarCIE10(q) {
-    if (MOCK_MODE) {
-      const sample = [
-        { codigo: 'J00',   descripcion: 'Resfriado común' },
-        { codigo: 'J45',   descripcion: 'Asma' },
-        { codigo: 'M54.5', descripcion: 'Lumbalgia' },
-        { codigo: 'R51',   descripcion: 'Cefalea' },
-        { codigo: 'E11',   descripcion: 'Diabetes mellitus tipo 2' },
-      ];
-      const ql = q.toLowerCase();
-      return sample.filter(x => x.codigo.toLowerCase().includes(ql) || x.descripcion.toLowerCase().includes(ql)).slice(0, 20);
-    }
-    const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=cie10&q=${encodeURIComponent(q)}&_=${Date.now()}`);
-    return Array.isArray(data) ? data : [];
-  }
-
-  async function obtenerRecetasAtendidas(cedula) {
-    if (MOCK_MODE) return "";
-    try {
-      const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=recetasAtendidas&cedula=${encodeURIComponent(cedula)}&_=${Date.now()}`);
-      return (data && typeof data.conteo !== 'undefined') ? data.conteo : "";
-    } catch (e) { return ""; }
-  }
-
-  function syncNumeroHistoria(force = false) {
-    const ced = $("#cedula")?.value?.trim() || "";
-    const nh  = $("#numero_historia");
-    if (nh && (force || ced.length === 10)) nh.value = ced;
-  }
-
-  // ==========================
-  // APP
-  // ==========================
-  document.addEventListener('DOMContentLoaded', async () => {
-    setEnvBadge();
-    setKpis('—', '—');
-    if ($("#fecha_hora")) $("#fecha_hora").value = nowLocalISO();
-    await cargarProgramas();
-
-    // === N° DE RECETAS: SIEMPRE 1 ===
-    if ($("#num_recetas")) {
-      $("#num_recetas").value = 1;
-      $("#num_recetas").readOnly = true;
-      $("#num_recetas").addEventListener('input', (e)=> { e.target.value = 1; });
+    function toast(msg, kind = "info") {
+      const t = $("#toast");
+      if (!t) return alert(msg);
+      t.textContent = msg;
+      t.setAttribute('data-kind', kind);
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3500);
     }
 
-    $("#cedula")?.addEventListener('input', (e) => {
-      const v = e.target.value.replace(/[^\d]/g, '').slice(0,10);
-      if (e.target.value !== v) e.target.value = v;
-      if (v.length === 10) syncNumeroHistoria(true);
-    });
-
-    function applySexoFlags() {
-      const sexo  = $("#sexo")?.value || "";
-      const flags = sexoToFlags(sexo);
-      if ($("#masculino")) $("#masculino").checked = (flags.masculino === 'SI');
-      if ($("#femenino"))  $("#femenino").checked  = (flags.femenino  === 'SI');
+    function nowLocalISO() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
-    $("#sexo")?.addEventListener('change', applySexoFlags);
 
-    function toggleReposoBlock() {
-      const show = $("#amb_no")?.checked;
-      if ($("#reposoBlock")) {
-        $("#reposoBlock").style.display = show ? 'grid' : 'none';
-        if (!show) {
-          if ($("#reposo_desde")) $("#reposo_desde").value = '';
-          if ($("#reposo_hasta")) $("#reposo_hasta").value = '';
-          if ($("#dias_reposo")) $("#dias_reposo").value = '';
+    function nowForDatetimeLocal() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function validateCedula(ecuId) {
+      if (!/^\d{10}$/.test(ecuId)) return false;
+      const digits = ecuId.split('').map(Number);
+      const province = parseInt(ecuId.slice(0, 2), 10);
+      if (province < 1 || (province > 24 && province !== 30)) return false;
+      const checkDigit = digits[9];
+      let sum = 0;
+      for (let i = 0; i < 9; i++) {
+        let val = digits[i];
+        if (i % 2 === 0) {
+          val *= 2;
+          if (val > 9) val -= 9;
         }
+        sum += val;
       }
+      const expected = (10 - (sum % 10)) % 10;
+      return expected === checkDigit;
     }
-    $("#amb_si")?.addEventListener('change', toggleReposoBlock);
-    $("#amb_no")?.addEventListener('change', toggleReposoBlock);
 
-    $("#btnConsultar")?.addEventListener('click', async () => {
-      const ced = $("#cedula")?.value?.trim() || "";
-      if (!validateCedula(ced)) {
-        if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="error">Cédula inválida (10 dígitos y dígito verificador).</span>';
-        return;
-      }
-      if ($("#msgCedula")) $("#msgCedula").textContent = 'Consultando…';
-      syncNumeroHistoria(true);
+    function normalizarCedula(v) {
+      const s = String(v || '').replace(/\D/g, '').slice(0, 10);
+      return s.padStart(10, '0');
+    }
 
-      try {
-        const p = await consultarPaciente(ced);
-        if (p) {
-          if ($("#nombres_apellidos")) $("#nombres_apellidos").value = fullNameFromBackend(p);
-          if ($("#correo")) $("#correo").value   = p.correo || '';
-          if ($("#activo")) $("#activo").value   = (p.activo === true || p.activo === 'SI') ? 'SI' : (p.activo === 'NO' ? 'NO' : '');
-          if ($("#sexo"))   $("#sexo").value     = p.sexo || '';
-          applySexoFlags();
-          if ($("#direccion")) $("#direccion").value = p.direccion || '';
+    function inclusiveDays(fromStr, toStr) {
+      if (!fromStr || !toStr) return 0;
+      const from = new Date(fromStr + 'T00:00:00');
+      const to = new Date(toStr + 'T00:00:00');
+      const diff = Math.round((to - from) / (1000 * 60 * 60 * 24));
+      return diff >= 0 ? (diff + 1) : 0;
+    }
 
-          if (typeof p.edad === 'number') {
-            if ($("#r15_54")) $("#r15_54").checked = (p.edad >= 15 && p.edad <= 54);
-            if ($("#r55_mas")) $("#r55_mas").checked = (p.edad >= 55);
-          }
-          // Se consultaba el conteo de recetas, pero ahora se fuerza a 1
-          await obtenerRecetasAtendidas(ced).catch(()=>{});
-          if ($("#num_recetas")) { $("#num_recetas").value = 1; }
-
-          if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="ok">Paciente encontrado en Matriz Madre.</span>';
-        } else {
-          if ($("#nombres_apellidos")) $("#nombres_apellidos").value = '';
-          if ($("#correo")) $("#correo").value = '';
-          if ($("#activo")) $("#activo").value = 'NO'; // <<< EXTERNO = NO
-          if ($("#sexo"))   $("#sexo").value   = '';
-          if ($("#direccion")) $("#direccion").value = 'EXTERNO';
-          if ($("#masculino")) $("#masculino").checked = false;
-          if ($("#femenino"))  $("#femenino").checked  = false;
-          if ($("#r15_54")) $("#r15_54").checked = false;
-          if ($("#r55_mas")) $("#r55_mas").checked = false;
-          if ($("#num_recetas")) { $("#num_recetas").value = 1; } // mantener en 1
-          if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="warn">No existe en Matriz Madre.</span>';
-        }
-      } catch (err) {
-        console.error(err);
-        if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="error">Error consultando el maestro.</span>';
-      }
-    });
-
-    $("#reposo_desde")?.addEventListener('change', () => {
-      if ($("#dias_reposo")) $("#dias_reposo").value = inclusiveDays($("#reposo_desde").value, $("#reposo_hasta").value);
-    });
-    $("#reposo_hasta")?.addEventListener('change', () => {
-      if ($("#dias_reposo")) $("#dias_reposo").value = inclusiveDays($("#reposo_desde").value, $("#reposo_hasta").value);
-    });
-
-    $("#programa")?.addEventListener('change', () => {
-      const p = $("#primera")?.checked, s = $("#subsecuente")?.checked;
-      if (!p && !s) toast('Selecciona PRIMERA o SUBSECUENTE');
-    });
-
-    function resetForm() {
-      $("#frmAtencion")?.reset();
-      if ($("#cie10_code")) $("#cie10_code").value = '';
-      if ($("#reposoBlock")) $("#reposoBlock").style.display = 'none';
-      setKpis('—','—');
-      if ($("#formMsg")) $("#formMsg").textContent = '';
-      // reset receta visual
-      recetaData = {
-        medico: RECETA_DEFAULTS.medico,
-        regsan: RECETA_DEFAULTS.regsan,
-        unidad: RECETA_DEFAULTS.unidad,
-        fecha: "",
-        paciente: "",
-        cie10: "",
-        lines: []
+    function sexoToFlags(sexo) {
+      return {
+        masculino: sexo === 'M' ? 'SI' : 'NO',
+        femenino: sexo === 'F' ? 'SI' : 'NO'
       };
-      $("#rec_lines") && ($("#rec_lines").innerHTML = "");
-      $("#recetaStatus") && ( $("#recetaStatus").style.display = "none" );
-
-      // mantener N° de recetas en 1 tras limpiar
-      if ($("#num_recetas")) { $("#num_recetas").value = 1; }
     }
-    $("#btnLimpiar")?.addEventListener('click', resetForm);
 
-    let cie10Timer = null;
-    $("#cie10")?.addEventListener('input', (e) => {
-      const q = e.target.value.trim();
-      clearTimeout(cie10Timer);
-      if (q.length < 2) { if ($("#cie10Results")) $("#cie10Results").style.display = 'none'; return; }
-      cie10Timer = setTimeout(async () => {
-        const results = await buscarCIE10(q);
-        const panel = $("#cie10Results");
-        if (!panel) return;
-        panel.innerHTML = '';
-        results.forEach(item => {
-          const d = document.createElement('div');
-          d.textContent = `${item.codigo} — ${item.descripcion}`;
-          d.tabIndex = 0;
-          d.addEventListener('click', () => {
-            if ($("#cie10")) $("#cie10").value = item.descripcion;
-            if ($("#cie10_code")) $("#cie10_code").value = item.codigo;
-            panel.style.display = 'none';
-          });
-          panel.appendChild(d);
-        });
-        panel.style.display = results.length ? 'block' : 'none';
-      }, 220);
-    });
-
-    document.addEventListener('click', (ev) => {
-      if ($("#cie10") && ev.target && !$("#cie10").contains(ev.target)) {
-        if ($("#cie10Results")) $("#cie10Results").style.display = 'none';
+    function setEnvBadge() {
+      const b = $("#envBadge");
+      if (!b) return;
+      if (MOCK_MODE) {
+        b.textContent = "Modo DEMO (sin backend)";
+      } else {
+        b.textContent = "Backend conectado";
+        b.style.borderColor = 'rgba(91,192,190,.55)';
+        b.style.background = 'rgba(91,192,190,.1)';
       }
-    });
+    }
 
-    $("#btnPrevisualizar")?.addEventListener('click', () => {
-      const data = serializePayload();
-      if ($("#formMsg")) $("#formMsg").textContent = JSON.stringify(data, null, 2);
-    });
+    async function fetchJSON(url) {
+      const res = await fetch(url, {
+        headers: { 'Accept': 'application/json' },
+        cache: 'no-store'
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }
 
-    // ======= RECETA: UI avanzada (líneas) =======
-    function addRecetaRow(row = {medicamento:"", dosis:"", indicaciones:""}) {
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }
+
+    async function postJSONtoMake(url, payload) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      try {
+        return await res.json();
+      } catch {
+        return {};
+      }
+    }
+
+    function setButtonLoading(loading) {
+      const btn = $("#btnGuardar");
+      const text = $("#btnGuardarText");
+      const spinner = $("#btnGuardarSpinner");
+
+      if (loading) {
+        btn.disabled = true;
+        text.textContent = "Guardando...";
+        spinner.style.display = "inline-block";
+        isSubmitting = true;
+      } else {
+        btn.disabled = false;
+        text.textContent = "Guardar atención";
+        spinner.style.display = "none";
+        isSubmitting = false;
+      }
+    }
+
+    // ==========================
+    // CARGAR PROGRAMAS
+    // ==========================
+    async function cargarProgramas() {
+      const sel = $("#programa");
+      if (!sel) return;
+      sel.innerHTML = "<option value=''>— Selecciona —</option>";
+      let items = PROGRAMAS_FALLBACK;
+      if (!MOCK_MODE) {
+        try {
+          const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=programas&_=${Date.now()}`);
+          if (Array.isArray(data) && data.length) items = data;
+        } catch (e) {
+          console.warn('Fallo al obtener programas, uso fallback', e);
+        }
+      }
+      for (const it of items) {
+        const opt = document.createElement('option');
+        opt.value = it;
+        opt.textContent = it;
+        sel.appendChild(opt);
+      }
+    }
+
+    function fullNameFromBackend(p) {
+      return (
+        p?.nombres_apellidos ||
+        p?.nombresApellidos ||
+        p?.empleado ||
+        [p?.nombres, p?.apellidos].filter(Boolean).join(' ')
+      )?.trim() || '';
+    }
+
+    async function consultarPaciente(cedula) {
+      if (MOCK_MODE) return null;
+      const url = `${BACKEND_BASE_URL}?fn=paciente&cedula=${encodeURIComponent(cedula)}&_=${Date.now()}`;
+      const data = await fetchJSON(url);
+      if (data && (data.cedula || data.CEDULA)) {
+        if (!data.cedula && data.CEDULA) data.cedula = String(data.CEDULA);
+        return data;
+      }
+      if (data && data.error) {
+        throw new Error(data.error);
+      }
+      return null;
+    }
+
+    async function buscarCIE10(q) {
+      if (MOCK_MODE) {
+        const sample = [
+          { codigo: 'J00', descripcion: 'Resfriado común' },
+          { codigo: 'J45', descripcion: 'Asma' },
+          { codigo: 'M54.5', descripcion: 'Lumbalgia' },
+          { codigo: 'R51', descripcion: 'Cefalea' },
+          { codigo: 'E11', descripcion: 'Diabetes mellitus tipo 2' },
+        ];
+        const ql = q.toLowerCase();
+        return sample.filter(x =>
+          x.codigo.toLowerCase().includes(ql) ||
+          x.descripcion.toLowerCase().includes(ql)
+        ).slice(0, 20);
+      }
+      const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=cie10&q=${encodeURIComponent(q)}&_=${Date.now()}`);
+      return Array.isArray(data) ? data : [];
+    }
+
+    async function obtenerRecetasAtendidas(cedula) {
+      if (MOCK_MODE) return "";
+      try {
+        const data = await fetchJSON(`${BACKEND_BASE_URL}?fn=recetasAtendidas&cedula=${encodeURIComponent(cedula)}&_=${Date.now()}`);
+        return (data && typeof data.conteo !== 'undefined') ? data.conteo : "";
+      } catch (e) {
+        return "";
+      }
+    }
+
+    function syncNumeroHistoria(force = false) {
+      const ced = $("#cedula")?.value?.trim() || "";
+      const nh = $("#numero_historia");
+      if (nh && (force || ced.length === 10)) nh.value = ced;
+    }
+
+    // ==========================
+    // RECETA MODAL
+    // ==========================
+    function addRecetaRow(row = { medicamento: "", dosis: "", indicaciones: "" }) {
       const tbody = $("#rec_lines");
       if (!tbody) return;
       const tr = document.createElement("tr");
@@ -723,14 +1113,24 @@ async function postJSONtoMake(url, payload) {
       const tdDel = document.createElement("td");
 
       const inMed = document.createElement("input");
-      inMed.type = "text"; inMed.value = row.medicamento || ""; inMed.placeholder = "Nombre comercial / genérico";
+      inMed.type = "text";
+      inMed.value = row.medicamento || "";
+      inMed.placeholder = "Nombre comercial / genérico";
+
       const inDos = document.createElement("input");
-      inDos.type = "text"; inDos.value = row.dosis || ""; inDos.placeholder = "Presentación / Dosis";
+      inDos.type = "text";
+      inDos.value = row.dosis || "";
+      inDos.placeholder = "Presentación / Dosis";
+
       const inInd = document.createElement("input");
-      inInd.type = "text"; inInd.value = row.indicaciones || ""; inInd.placeholder = "Frecuencia / duración / indicaciones";
+      inInd.type = "text";
+      inInd.value = row.indicaciones || "";
+      inInd.placeholder = "Frecuencia / duración / indicaciones";
 
       const btnDel = document.createElement("button");
-      btnDel.type = "button"; btnDel.className = "icon-btn"; btnDel.textContent = "🗑";
+      btnDel.type = "button";
+      btnDel.className = "icon-btn";
+      btnDel.textContent = "🗑";
       btnDel.addEventListener("click", () => tr.remove());
 
       tdMed.appendChild(inMed);
@@ -738,7 +1138,10 @@ async function postJSONtoMake(url, payload) {
       tdInd.appendChild(inInd);
       tdDel.appendChild(btnDel);
 
-      tr.appendChild(tdMed); tr.appendChild(tdDos); tr.appendChild(tdInd); tr.appendChild(tdDel);
+      tr.appendChild(tdMed);
+      tr.appendChild(tdDos);
+      tr.appendChild(tdInd);
+      tr.appendChild(tdDel);
       tbody.appendChild(tr);
     }
 
@@ -757,16 +1160,13 @@ async function postJSONtoMake(url, payload) {
     }
 
     function openRecetaModal() {
-      // Prefill campos encabezado
       $("#rec_medico").value = recetaData.medico || RECETA_DEFAULTS.medico;
       $("#rec_regsan").value = recetaData.regsan || RECETA_DEFAULTS.regsan;
       $("#rec_unidad").value = recetaData.unidad || RECETA_DEFAULTS.unidad;
-
       $("#rec_paciente").value = $("#nombres_apellidos")?.value?.trim() || "";
       $("#rec_cie10").value = ($("#cie10_code")?.value || $("#cie10")?.value || "");
       $("#rec_fecha").value = recetaData.fecha || nowForDatetimeLocal();
 
-      // Cargar líneas existentes
       const tbody = $("#rec_lines");
       tbody.innerHTML = "";
       (recetaData.lines && recetaData.lines.length ? recetaData.lines : [{}]).forEach(addRecetaRow);
@@ -780,43 +1180,9 @@ async function postJSONtoMake(url, payload) {
       $("#recetaModal").setAttribute("aria-hidden", "true");
     }
 
-    $("#btnAbrirReceta")?.addEventListener("click", openRecetaModal);
-    $("#btnCerrarReceta")?.addEventListener("click", closeRecetaModal);
-    $("#btnAddLinea")?.addEventListener("click", () => addRecetaRow());
-
-    $("#btnPreviewReceta")?.addEventListener("click", () => {
-      const lines = collectRecetaLines();
-      const preview = {
-        medico: $("#rec_medico").value.trim(),
-        regsan: $("#rec_regsan").value.trim(),
-        unidad: $("#rec_unidad").value.trim(),
-        fecha: $("#rec_fecha").value,
-        paciente: $("#rec_paciente").value.trim(),
-        cie10: $("#rec_cie10").value.trim(),
-        lines
-      };
-      toast("Previsualización en consola.");
-      console.log("PREVIEW RECETA:", preview);
-    });
-
-    $("#btnGuardarReceta")?.addEventListener("click", () => {
-      recetaData = {
-        medico: $("#rec_medico").value.trim() || RECETA_DEFAULTS.medico,
-        regsan: $("#rec_regsan").value.trim() || RECETA_DEFAULTS.regsan,
-        unidad: $("#rec_unidad").value.trim() || RECETA_DEFAULTS.unidad,
-        fecha: $("#rec_fecha").value || nowForDatetimeLocal(),
-        paciente: $("#rec_paciente").value.trim(),
-        cie10: $("#rec_cie10").value.trim(),
-        lines: collectRecetaLines()
-      };
-      closeRecetaModal();
-
-      const hasAny = recetaData.lines && recetaData.lines.length > 0;
-      $("#recetaStatus").style.display = hasAny ? "inline-block" : "none";
-      toast(hasAny ? "Receta guardada." : "Receta vacía.");
-    });
-
-    // ======= Serializador (con receta) =======
+    // ==========================
+    // SERIALIZAR DATOS
+    // ==========================
     function serializePayload() {
       const sexo = $("#sexo")?.value || "";
       const flags = sexoToFlags(sexo);
@@ -841,7 +1207,7 @@ async function postJSONtoMake(url, payload) {
         SUBSECUENTE: $("#subsecuente")?.checked ? 'SI' : 'NO',
         SOLICITADAS: $("#solicitadas")?.checked ? 'SI' : 'NO',
         ATENDIDAS: $("#atendidas")?.checked ? 'SI' : 'NO',
-        NUMERO_RECETAS_ATENDIDAS: 1, // forzado en payload
+        NUMERO_RECETAS_ATENDIDAS: 1,
         AMBULATORIO: ambSI ? 'SI' : 'NO',
         REPOSO_DESDE: ambSI ? '' : reposoDesde,
         REPOSO_HASTA: ambSI ? '' : reposoHasta,
@@ -851,8 +1217,6 @@ async function postJSONtoMake(url, payload) {
         PROGRAMA: $("#programa")?.value || "",
         DIRECCION: $("#direccion")?.value?.trim() || "",
         OBSERVACIONES: $("#observaciones")?.value?.trim() || "",
-
-        // === NUEVO: Receta (estructura)
         RECETA: {
           medico: recetaData.medico,
           regsan: recetaData.regsan,
@@ -868,87 +1232,316 @@ async function postJSONtoMake(url, payload) {
     async function guardar(payload) {
       if (MOCK_MODE) {
         const codigo = `AT-${Date.now()}`;
-        const orden = Math.floor(1000 + Math.random()*9000);
-        setKpis(codigo, orden);
+        const orden = Math.floor(1000 + Math.random() * 9000);
         if ($("#codigo_unico")) $("#codigo_unico").value = codigo;
         if ($("#numero_orden")) $("#numero_orden").value = orden;
-        toast('Guardado en DEMO. Integra el backend para escritura real.');
         return { ok: true, codigo_unico: codigo, numero_orden: orden };
       }
-      const res = await postJSON(BACKEND_BASE_URL, { fn: 'registrarAtencion', data: payload });
+      const res = await postJSON(BACKEND_BASE_URL, {
+        fn: 'registrarAtencion',
+        data: payload
+      });
       if (res && res.ok) {
-        setKpis(res.codigo_unico, res.numero_orden);
         if ($("#codigo_unico")) $("#codigo_unico").value = res.codigo_unico || '';
         if ($("#numero_orden")) $("#numero_orden").value = res.numero_orden || '';
       }
       return res;
     }
 
-    $("#frmAtencion")?.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    function resetForm() {
+      $("#frmAtencion")?.reset();
+      if ($("#cie10_code")) $("#cie10_code").value = '';
+      if ($("#reposoBlock")) $("#reposoBlock").style.display = 'none';
       if ($("#formMsg")) $("#formMsg").textContent = '';
+      if ($("#msgCedula")) $("#msgCedula").innerHTML = '';
 
-      const ced = $("#cedula")?.value?.trim() || "";
-      if (!validateCedula(ced)) { toast('Cédula inválida', 'error'); return; }
-      if (!$("#programa")?.value) { toast('Selecciona un PROGRAMA', 'error'); return; }
+      recetaData = {
+        medico: RECETA_DEFAULTS.medico,
+        regsan: RECETA_DEFAULTS.regsan,
+        unidad: RECETA_DEFAULTS.unidad,
+        fecha: "",
+        paciente: "",
+        cie10: "",
+        lines: []
+      };
 
-      if (!$("#primera")?.checked && !$("#subsecuente")?.checked) {
-        toast('Selecciona PRIMERA o SUBSECUENTE', 'error'); return;
+      $("#rec_lines") && ($("#rec_lines").innerHTML = "");
+      $("#recetaStatus") && ($("#recetaStatus").style.display = "none");
+      if ($("#num_recetas")) $("#num_recetas").value = 1;
+    }
+
+    // ==========================
+    // INIT
+    // ==========================
+    document.addEventListener('DOMContentLoaded', async () => {
+      setEnvBadge();
+      if ($("#fecha_hora")) $("#fecha_hora").value = nowLocalISO();
+      await cargarProgramas();
+
+      if ($("#num_recetas")) {
+        $("#num_recetas").value = 1;
+        $("#num_recetas").readOnly = true;
+        $("#num_recetas").addEventListener('input', (e) => {
+          e.target.value = 1;
+        });
       }
-      if ($("#amb_no")?.checked) {
-        const d = $("#reposo_desde")?.value, h = $("#reposo_hasta")?.value;
-        if (!d || !h) { toast('Completa fechas de REPOSO', 'error'); return; }
-        if (inclusiveDays(d,h) <= 0) { toast('Revisa el rango de REPOSO', 'error'); return; }
+
+      // ==========================
+      // EVENT LISTENERS
+      // ==========================
+      $("#cedula")?.addEventListener('input', (e) => {
+        const v = e.target.value.replace(/[^\d]/g, '').slice(0, 10);
+        if (e.target.value !== v) e.target.value = v;
+        if (v.length === 10) syncNumeroHistoria(true);
+      });
+
+      function applySexoFlags() {
+        const sexo = $("#sexo")?.value || "";
+        const flags = sexoToFlags(sexo);
+        if ($("#masculino")) $("#masculino").checked = (flags.masculino === 'SI');
+        if ($("#femenino")) $("#femenino").checked = (flags.femenino === 'SI');
       }
-      if (!($("#cie10")?.value?.trim())) { toast('Selecciona un diagnóstico CIE10', 'error'); return; }
+      $("#sexo")?.addEventListener('change', applySexoFlags);
 
-      const payload = serializePayload();
-      try {
-        const res = await guardar(payload);
-        if (res && res.ok) {
-          toast('Atención guardada correctamente');
-
-          const hasReceta = (recetaData.lines && recetaData.lines.length > 0);
-          const correo = payload.CORREO?.trim();
-          if (hasReceta && correo) {
-            try {
-             await postJSONtoMake(MAKE_WEBHOOK_RECETA, {
-  correo,
-  paciente: payload.NOMBRES_APELLIDOS,
-  cedula: payload.CEDULA,
-  programa: payload.PROGRAMA,
-  cie10: payload.DIAGNOSTICO_CIE10,
-  cie10_desc: payload.DIAGNOSTICO_DESC,
-  fecha_atencion: payload.FECHA_HORA,
-  codigo_unico: $("#codigo_unico")?.value || res.codigo_unico || "",
-  numero_orden: $("#numero_orden")?.value || res.numero_orden || "",
-  receta: {
-    medico: recetaData.medico,
-    regsan: recetaData.regsan,
-    unidad: recetaData.unidad,
-    fecha: recetaData.fecha,
-    paciente: payload.NOMBRES_APELLIDOS,
-    cie10: payload.DIAGNOSTICO_CIE10,
-    lines: recetaData.lines
-  }
-              });
-              toast("Receta enviada por correo (Make).");
-            } catch (e2) {
-              console.error(e2);
-              toast("Atención guardada, pero falló el envío de la receta.", "error");
-            }
-          } else if (hasReceta && !correo) {
-            toast("Hay receta, pero no hay correo para enviar.", "error");
+      function toggleReposoBlock() {
+        const show = $("#amb_no")?.checked;
+        if ($("#reposoBlock")) {
+          $("#reposoBlock").style.display = show ? 'grid' : 'none';
+          if (!show) {
+            if ($("#reposo_desde")) $("#reposo_desde").value = '';
+            if ($("#reposo_hasta")) $("#reposo_hasta").value = '';
+            if ($("#dias_reposo")) $("#dias_reposo").value = '';
           }
-        } else {
-          toast('No se pudo guardar', 'error');
         }
-      } catch (err) {
-        console.error(err);
-        toast('Error al guardar', 'error');
       }
+      $("#amb_si")?.addEventListener('change', toggleReposoBlock);
+      $("#amb_no")?.addEventListener('change', toggleReposoBlock);
+
+      $("#btnConsultar")?.addEventListener('click', async () => {
+        const ced = $("#cedula")?.value?.trim() || "";
+        if (!validateCedula(ced)) {
+          if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="error">Cédula inválida (10 dígitos y dígito verificador).</span>';
+          return;
+        }
+        if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="hint">Consultando…</span>';
+        syncNumeroHistoria(true);
+
+        try {
+          const p = await consultarPaciente(ced);
+          if (p) {
+            if ($("#nombres_apellidos")) $("#nombres_apellidos").value = fullNameFromBackend(p);
+            if ($("#correo")) $("#correo").value = p.correo || '';
+            if ($("#activo")) $("#activo").value = (p.activo === true || p.activo === 'SI') ? 'SI' : (p.activo === 'NO' ? 'NO' : '');
+            if ($("#sexo")) $("#sexo").value = p.sexo || '';
+            applySexoFlags();
+            if ($("#direccion")) $("#direccion").value = p.direccion || '';
+
+            if (typeof p.edad === 'number') {
+              if ($("#r15_54")) $("#r15_54").checked = (p.edad >= 15 && p.edad <= 54);
+              if ($("#r55_mas")) $("#r55_mas").checked = (p.edad >= 55);
+            }
+
+            await obtenerRecetasAtendidas(ced).catch(() => {});
+            if ($("#num_recetas")) $("#num_recetas").value = 1;
+            if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="ok">Paciente encontrado en Matriz Madre.</span>';
+          } else {
+            if ($("#nombres_apellidos")) $("#nombres_apellidos").value = '';
+            if ($("#correo")) $("#correo").value = '';
+            if ($("#activo")) $("#activo").value = 'NO';
+            if ($("#sexo")) $("#sexo").value = '';
+            if ($("#direccion")) $("#direccion").value = 'EXTERNO';
+            if ($("#masculino")) $("#masculino").checked = false;
+            if ($("#femenino")) $("#femenino").checked = false;
+            if ($("#r15_54")) $("#r15_54").checked = false;
+            if ($("#r55_mas")) $("#r55_mas").checked = false;
+            if ($("#num_recetas")) $("#num_recetas").value = 1;
+            if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="warn">No existe en Matriz Madre.</span>';
+          }
+        } catch (err) {
+          console.error(err);
+          if ($("#msgCedula")) $("#msgCedula").innerHTML = '<span class="error">Error consultando el maestro.</span>';
+        }
+      });
+
+      $("#reposo_desde")?.addEventListener('change', () => {
+        if ($("#dias_reposo")) $("#dias_reposo").value = inclusiveDays($("#reposo_desde").value, $("#reposo_hasta").value);
+      });
+
+      $("#reposo_hasta")?.addEventListener('change', () => {
+        if ($("#dias_reposo")) $("#dias_reposo").value = inclusiveDays($("#reposo_desde").value, $("#reposo_hasta").value);
+      });
+
+      // CIE10 autocomplete
+      let cie10Timer = null;
+      $("#cie10")?.addEventListener('input', (e) => {
+        const q = e.target.value.trim();
+        clearTimeout(cie10Timer);
+        if (q.length < 2) {
+          if ($("#cie10Results")) $("#cie10Results").style.display = 'none';
+          return;
+        }
+        cie10Timer = setTimeout(async () => {
+          const results = await buscarCIE10(q);
+          const panel = $("#cie10Results");
+          if (!panel) return;
+          panel.innerHTML = '';
+          results.forEach(item => {
+            const d = document.createElement('div');
+            d.textContent = `${item.codigo} — ${item.descripcion}`;
+            d.tabIndex = 0;
+            d.addEventListener('click', () => {
+              if ($("#cie10")) $("#cie10").value = item.descripcion;
+              if ($("#cie10_code")) $("#cie10_code").value = item.codigo;
+              panel.style.display = 'none';
+            });
+            panel.appendChild(d);
+          });
+          panel.style.display = results.length ? 'block' : 'none';
+        }, 220);
+      });
+
+      document.addEventListener('click', (ev) => {
+        if ($("#cie10") && ev.target && !$("#cie10").contains(ev.target)) {
+          if ($("#cie10Results")) $("#cie10Results").style.display = 'none';
+        }
+      });
+
+      // Modal receta
+      $("#btnAbrirReceta")?.addEventListener("click", openRecetaModal);
+      $("#btnCerrarReceta")?.addEventListener("click", closeRecetaModal);
+      $("#btnAddLinea")?.addEventListener("click", () => addRecetaRow());
+
+      $("#btnPreviewReceta")?.addEventListener("click", () => {
+        const lines = collectRecetaLines();
+        const preview = {
+          medico: $("#rec_medico").value.trim(),
+          regsan: $("#rec_regsan").value.trim(),
+          unidad: $("#rec_unidad").value.trim(),
+          fecha: $("#rec_fecha").value,
+          paciente: $("#rec_paciente").value.trim(),
+          cie10: $("#rec_cie10").value.trim(),
+          lines
+        };
+        toast("Previsualización en consola.");
+        console.log("PREVIEW RECETA:", preview);
+      });
+
+      $("#btnGuardarReceta")?.addEventListener("click", () => {
+        recetaData = {
+          medico: $("#rec_medico").value.trim() || RECETA_DEFAULTS.medico,
+          regsan: $("#rec_regsan").value.trim() || RECETA_DEFAULTS.regsan,
+          unidad: $("#rec_unidad").value.trim() || RECETA_DEFAULTS.unidad,
+          fecha: $("#rec_fecha").value || nowForDatetimeLocal(),
+          paciente: $("#rec_paciente").value.trim(),
+          cie10: $("#rec_cie10").value.trim(),
+          lines: collectRecetaLines()
+        };
+        closeRecetaModal();
+
+        const hasAny = recetaData.lines && recetaData.lines.length > 0;
+        $("#recetaStatus").style.display = hasAny ? "inline-block" : "none";
+        toast(hasAny ? "Receta guardada." : "Receta vacía.");
+      });
+
+      // SUBMIT FORM
+      $("#frmAtencion")?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (isSubmitting) {
+          toast('Ya hay un envío en proceso. Espera un momento.', 'warn');
+          return;
+        }
+
+        if ($("#formMsg")) $("#formMsg").textContent = '';
+
+        const ced = $("#cedula")?.value?.trim() || "";
+        if (!validateCedula(ced)) {
+          toast('Cédula inválida', 'error');
+          return;
+        }
+        if (!$("#programa")?.value) {
+          toast('Selecciona un PROGRAMA', 'error');
+          return;
+        }
+        if (!$("#primera")?.checked && !$("#subsecuente")?.checked) {
+          toast('Selecciona PRIMERA o SUBSECUENTE', 'error');
+          return;
+        }
+        if ($("#amb_no")?.checked) {
+          const d = $("#reposo_desde")?.value;
+          const h = $("#reposo_hasta")?.value;
+          if (!d || !h) {
+            toast('Completa fechas de REPOSO', 'error');
+            return;
+          }
+          if (inclusiveDays(d, h) <= 0) {
+            toast('Revisa el rango de REPOSO', 'error');
+            return;
+          }
+        }
+        if (!($("#cie10")?.value?.trim())) {
+          toast('Selecciona un diagnóstico CIE10', 'error');
+          return;
+        }
+
+        const payload = serializePayload();
+
+        try {
+          setButtonLoading(true);
+
+          const res = await guardar(payload);
+
+          if (res && res.ok) {
+            toast('Atención guardada correctamente', 'success');
+
+            const hasReceta = (recetaData.lines && recetaData.lines.length > 0);
+            const correo = payload.CORREO?.trim();
+
+            if (hasReceta && correo) {
+              try {
+                await postJSONtoMake(MAKE_WEBHOOK_RECETA, {
+                  correo,
+                  paciente: payload.NOMBRES_APELLIDOS,
+                  cedula: payload.CEDULA,
+                  programa: payload.PROGRAMA,
+                  cie10: payload.DIAGNOSTICO_CIE10,
+                  cie10_desc: payload.DIAGNOSTICO_DESC,
+                  fecha_atencion: payload.FECHA_HORA,
+                  codigo_unico: $("#codigo_unico")?.value || res.codigo_unico || "",
+                  numero_orden: $("#numero_orden")?.value || res.numero_orden || "",
+                  receta: {
+                    medico: recetaData.medico,
+                    regsan: recetaData.regsan,
+                    unidad: recetaData.unidad,
+                    fecha: recetaData.fecha,
+                    paciente: payload.NOMBRES_APELLIDOS,
+                    cie10: payload.DIAGNOSTICO_CIE10,
+                    lines: recetaData.lines
+                  }
+                });
+                toast("Receta enviada por correo correctamente", "success");
+              } catch (e2) {
+                console.error(e2);
+                toast("Atención guardada, pero falló el envío de la receta.", "error");
+              }
+            } else if (hasReceta && !correo) {
+              toast("Hay receta, pero no hay correo para enviar.", "warn");
+            }
+
+            setTimeout(() => {
+              resetForm();
+            }, 1000);
+          } else {
+            toast('No se pudo guardar', 'error');
+          }
+        } catch (err) {
+          console.error(err);
+          toast('Error al guardar', 'error');
+        } finally {
+          setButtonLoading(false);
+        }
+      });
     });
-  });
   </script>
 </body>
 </html>
